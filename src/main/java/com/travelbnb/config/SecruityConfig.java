@@ -10,17 +10,17 @@ import org.springframework.security.web.authentication.AuthenticationFilter;
 @Configuration
 public class SecruityConfig {
 
-//    private JWTRequestFilter jwtRequestFilter;
-//
-//    public SecruityConfig(JWTRequestFilter jwtRequestFilter) {
-//        this.jwtRequestFilter = jwtRequestFilter;
-//    }
+    private JWTRequestFilter jwtRequestFilter;
+
+    public SecruityConfig(JWTRequestFilter jwtRequestFilter) {
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
-//        http.addFilterBefore(jwtRequestFilter, AuthorizationFilter.class);
         http.csrf().disable().cors().disable();
+        http.addFilterBefore(jwtRequestFilter, AuthorizationFilter.class);
         http.authorizeHttpRequests().anyRequest().permitAll();
         return http.build();
     }

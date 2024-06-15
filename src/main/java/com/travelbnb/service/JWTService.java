@@ -24,7 +24,7 @@ public class JWTService {
 
     private Algorithm algorithm;
 
-//    private final String USER_NAME = "username";
+    private final String USER_NAME = "username";
 
     @PostConstruct
     public void postConstruct(){
@@ -35,16 +35,16 @@ public class JWTService {
     public String generateToken(AppUserEntity appUser)
     {
         return JWT.create().
-                withClaim("username",appUser.getUsername())
+                withClaim(USER_NAME,appUser.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis()+expiryTime))
                 .withIssuer(issuer)
                 .sign(algorithm);
     }
 
-//    public String getUserName(String token)
-//    {
-//        DecodedJWT decodedJwt = JWT.require(algorithm).withIssuer(issuer).build().verify(token);
-//
-//        return decodedJwt.getClaim(USER_NAME).asString();
-//    }
+    public String getUserName(String token)
+    {
+        DecodedJWT decodedJwt = JWT.require(algorithm).withIssuer(issuer).build().verify(token);
+
+        return decodedJwt.getClaim(USER_NAME).asString();
+    }
 }
