@@ -12,6 +12,8 @@ public class AppUserEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    private String role;
+
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -65,4 +67,11 @@ public class AppUserEntity {
         this.id = id;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

@@ -53,6 +53,7 @@ public class AppUserServiceImpl implements AppUserService{
         aue.setName(appUserPayload.getName());
         aue.setEmail(appUserPayload.getEmail());
         aue.setUsername(appUserPayload.getUsername());
+        aue.setRole(appUserPayload.getRole());
         aue.setPassword(appUserPayload.getPassword());
 
         return aue;
@@ -66,6 +67,7 @@ public class AppUserServiceImpl implements AppUserService{
         apl.setName(ape.getName());
         apl.setEmail(ape.getEmail());
         apl.setUsername(ape.getUsername());
+        apl.setRole(ape.getRole());
         apl.setPassword(ape.getPassword());
 
         return apl;
