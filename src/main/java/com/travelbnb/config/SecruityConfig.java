@@ -21,14 +21,14 @@ public class SecruityConfig {
     {
         http.csrf().disable().cors().disable();
         http.addFilterBefore(jwtRequestFilter, AuthorizationFilter.class);
-//        http.authorizeHttpRequests().anyRequest().permitAll();
-        http.authorizeHttpRequests().requestMatchers("/api/v1/appUser/addUser","/api/v1/appUser/login")
-                .permitAll()
-                .requestMatchers("/api/v1/countries/addCountry")
-                .hasRole("ADMIN")
-                .requestMatchers("/api/v1/uploadPhotos/photo")
-                .hasAnyRole("ADMIN","USER")
-                .anyRequest().authenticated();
+        http.authorizeHttpRequests().anyRequest().permitAll();
+//        http.authorizeHttpRequests().requestMatchers("/api/v1/appUser/addUser","/api/v1/appUser/login")
+//                .permitAll()
+//                .requestMatchers("/api/v1/countries/addCountry")
+//                .hasRole("ADMIN")
+//                .requestMatchers("/api/v1/uploadPhotos/photo")
+//                .hasAnyRole("ADMIN","USER")
+//                .anyRequest().authenticated();
         return http.build();
     }
 }
