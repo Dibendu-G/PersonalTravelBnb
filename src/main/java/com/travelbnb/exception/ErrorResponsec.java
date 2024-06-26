@@ -2,13 +2,13 @@ package com.travelbnb.exception;
 
 import java.util.Date;
 
-public class ErrorResponse {
+public class ErrorResponsec {
 
     private Date timestamp;
     private String message;
     private String details;
 
-    public ErrorResponse(Date timestamp,String message,String details){
+    public ErrorResponsec(Date timestamp, String message, String details){
         super();
         this.timestamp=timestamp;
         this.message=message;
