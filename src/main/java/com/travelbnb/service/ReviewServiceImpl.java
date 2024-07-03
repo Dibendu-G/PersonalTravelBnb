@@ -11,6 +11,8 @@ import com.travelbnb.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -57,7 +59,17 @@ public class ReviewServiceImpl implements ReviewService{
         }
     }
 
-//    Conversion Payload To Entity
+    @Override
+    public List<ReviewsPayload> getReviewsByUser(AppUserEntity user) {
+        List<ReviewsEntity> reviewsEntities = reviewRepository.findByUserReviews(user);
+        List<ReviewsPayload> reviewsPayloads = new ArrayList<>();
+        for (ReviewsEntity re : reviewsEntities) {
+            reviewsPayloads.add(EntityToPayload(re));
+        }
+        return reviewsPayloads;
+    }
+
+    //    Conversion Payload To Entity
     ReviewsEntity PayloadToEntity(ReviewsPayload reviewsPayload){
         ReviewsEntity re = new ReviewsEntity();
         re.setRatings(reviewsPayload.getRatings());
