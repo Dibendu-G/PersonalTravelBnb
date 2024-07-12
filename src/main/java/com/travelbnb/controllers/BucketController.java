@@ -1,6 +1,7 @@
 package com.travelbnb.controllers;
 
 import com.travelbnb.service.BucketService;
+import com.travelbnb.service.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,7 +18,7 @@ public class BucketController {
     private final BucketService bucketService;
 
     @Autowired
-    public BucketController(BucketService bucketService) {
+    public BucketController(BucketService bucketService, SmsService smsService) {
         this.bucketService = bucketService;
     }
 

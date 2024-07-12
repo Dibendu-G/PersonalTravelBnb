@@ -13,7 +13,7 @@ public class Bookings {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "mobile", nullable = false, unique = true, length = 10)
+    @Column(name = "mobile", nullable = false, unique = true, length = 15)
     private String mobile;
 
     @Column(name = "name", nullable = false)

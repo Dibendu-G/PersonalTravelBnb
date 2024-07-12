@@ -1,6 +1,7 @@
 package com.travelbnb.controllers;
 
 import com.travelbnb.entity.PropertyEntity;
+import com.travelbnb.payloads.AppUserPayload;
 import com.travelbnb.payloads.PropertyPayload;
 import com.travelbnb.repository.PropertyRepository;
 import com.travelbnb.service.PropertyService;
@@ -36,5 +37,16 @@ public class PropertyController {
     {
         List<PropertyEntity> properties = propertyRepository.searchProperty(name);
         return new ResponseEntity<>(properties,HttpStatus.OK);
+    }
+
+    //    Applying Pagination and Sorting
+    @GetMapping
+    public ResponseEntity<List<PropertyPayload>> getAllProperties(@RequestParam(name="pageSize",defaultValue = "5", required = false)int pageSize,
+                                                            @RequestParam(name="pageNo",defaultValue ="0",required = false)int pageNo,
+                                                            @RequestParam(name="sortBy",defaultValue = "id",required = false) String sortBy,
+                                                            @RequestParam(name="sortDir",defaultValue = "id",required = false) String sortDir){
+        List<PropertyPayload> allPropertiesDetails = propertyService.getAllProperties(pageSize,pageNo,sortBy,sortDir);
+
+        return new ResponseEntity<>(allPropertiesDetails,HttpStatus.OK);
     }
 }

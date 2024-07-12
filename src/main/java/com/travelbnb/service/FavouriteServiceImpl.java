@@ -4,13 +4,20 @@ import com.travelbnb.entity.AppUserEntity;
 import com.travelbnb.entity.FavouriteEntity;
 import com.travelbnb.entity.PropertyEntity;
 import com.travelbnb.exception.NotFoundException;
+import com.travelbnb.payloads.AppUserPayload;
 import com.travelbnb.payloads.FavouritePayload;
 import com.travelbnb.repository.FavouriteRepository;
 import com.travelbnb.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FavouriteServiceImpl implements FavouriteService{
@@ -45,6 +52,25 @@ public class FavouriteServiceImpl implements FavouriteService{
             FavouriteEntity saved = favouriteRepository.save(favouriteEntity);
 
             return entityToPayload(saved);
+    }
+
+    @Override
+    public List<FavouritePayload> getAllFavourites(int pageSize, int pageNo, String sortBy, String sortDir) {
+        Pageable pageable;
+        if (sortDir.equalsIgnoreCase("ASC")) {
+            pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending());
+        } else if (sortDir.equalsIgnoreCase("DESC")) {
+            pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+        } else {
+            pageable = PageRequest.of(pageNo, pageSize);
+        }
+
+        Page<FavouriteEntity> userPage = favouriteRepository.findAll(pageable);
+        List<FavouritePayload> favouritePayloads = userPage.getContent().stream()
+                .map(this::entityToPayload)
+                .collect(Collectors.toList());
+
+        return favouritePayloads;
     }
 
     // Conversion Payload To Entity

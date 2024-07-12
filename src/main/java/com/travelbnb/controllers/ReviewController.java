@@ -3,6 +3,7 @@ package com.travelbnb.controllers;
 import com.travelbnb.entity.AppUserEntity;
 import com.travelbnb.entity.PropertyEntity;
 import com.travelbnb.entity.ReviewsEntity;
+import com.travelbnb.payloads.AppUserPayload;
 import com.travelbnb.payloads.ReviewsPayload;
 import com.travelbnb.repository.PropertyRepository;
 import com.travelbnb.repository.ReviewRepository;
@@ -45,5 +46,16 @@ public class ReviewController {
     {
         List<ReviewsPayload> reviews= reviewService.getReviewsByUser(user);
         return new ResponseEntity<>(reviews,HttpStatus.OK);
+    }
+
+    //    Applying Pagination and Sorting
+    @GetMapping
+    public ResponseEntity<List<ReviewsPayload>> getAllReviews(@RequestParam(name="pageSize",defaultValue = "5", required = false)int pageSize,
+                                                            @RequestParam(name="pageNo",defaultValue ="0",required = false)int pageNo,
+                                                            @RequestParam(name="sortBy",defaultValue = "id",required = false) String sortBy,
+                                                            @RequestParam(name="sortDir",defaultValue = "id",required = false) String sortDir){
+        List<ReviewsPayload> allReviewsDetails = reviewService.getAllReviews(pageSize,pageNo,sortBy,sortDir);
+
+        return new ResponseEntity<>(allReviewsDetails,HttpStatus.OK);
     }
 }

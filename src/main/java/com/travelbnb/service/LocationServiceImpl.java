@@ -3,7 +3,14 @@ package com.travelbnb.service;
 import com.travelbnb.entity.LocationEntity;
 import com.travelbnb.payloads.LocationPayload;
 import com.travelbnb.repository.LocationRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LocationServiceImpl implements LocationService{
@@ -23,7 +30,26 @@ public class LocationServiceImpl implements LocationService{
         return lpd;
     }
 
-//    Conversions PayloadToEntity
+    @Override
+    public List<LocationPayload> getAllLocations(int pageSize, int pageNo, String sortBy, String sortDir) {
+        Pageable pageable;
+        if (sortDir.equalsIgnoreCase("ASC")) {
+            pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending());
+        } else if (sortDir.equalsIgnoreCase("DESC")) {
+            pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+        } else {
+            pageable = PageRequest.of(pageNo, pageSize);
+        }
+
+        Page<LocationEntity> userPage = locationRepository.findAll(pageable);
+        List<LocationPayload> locationPayloads = userPage.getContent().stream()
+                .map(this::EntityToPayload)
+                .collect(Collectors.toList());
+
+        return locationPayloads;
+    }
+
+    //    Conversions PayloadToEntity
     LocationEntity PayloadsToEntity(LocationPayload lpd)
     {
         LocationEntity le = new LocationEntity();

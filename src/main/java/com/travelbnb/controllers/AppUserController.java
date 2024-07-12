@@ -1,5 +1,6 @@
 package com.travelbnb.controllers;
 
+import com.travelbnb.entity.AppUserEntity;
 import com.travelbnb.payloads.AppUserPayload;
 import com.travelbnb.payloads.JWTTokenPayload;
 import com.travelbnb.payloads.LoginPayload;
@@ -9,10 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/appUser")
@@ -44,6 +44,29 @@ public class AppUserController {
         return new ResponseEntity<>(aupl, HttpStatus.CREATED);
     }
 
+//    Updating
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<AppUserEntity> updateUser(@PathVariable long userId,
+                                                    @RequestBody AppUserPayload appUserPayload)
+    {
+        AppUserEntity app = appUserService.updateUserDetails(userId,appUserPayload);
+        return new ResponseEntity<>(app,HttpStatus.OK);
+    }
+
+//    Deleting
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable long userId) {
+        try {
+            appUserService.deleteUser(userId);
+            return new ResponseEntity<>("Deleted Successfully",HttpStatus.OK);
+        } catch (RuntimeException e)
+        {
+            return new  ResponseEntity<>("Not Found",HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> verifyLogin(@RequestBody LoginPayload loginPayload)
     {
@@ -56,4 +79,16 @@ public class AppUserController {
         }
         return new ResponseEntity<>("Invalid Token",HttpStatus.OK);
     }
+
+//    Applying Pagination and Sorting
+    @GetMapping
+    public ResponseEntity<List<AppUserPayload>> getAllUsers(@RequestParam(name="pageSize",defaultValue = "5", required = false)int pageSize,
+                                                            @RequestParam(name="pageNo",defaultValue ="0",required = false)int pageNo,
+                                                            @RequestParam(name="sortBy",defaultValue = "id",required = false) String sortBy,
+                                                            @RequestParam(name="sortDir",defaultValue = "id",required = false) String sortDir){
+        List<AppUserPayload> allUserDetails = appUserService.getAllUsers(pageSize,pageNo,sortBy,sortDir);
+
+        return new ResponseEntity<>(allUserDetails,HttpStatus.OK);
+    }
+
 }

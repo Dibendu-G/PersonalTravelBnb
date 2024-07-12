@@ -9,4 +9,6 @@ public interface ReviewService {
     ReviewsPayload addReviews(AppUserEntity appUser, long propertyid, ReviewsPayload reviewsPayload);
 
     List<ReviewsPayload> getReviewsByUser(AppUserEntity user);
+
+    List<ReviewsPayload> getAllReviews(int pageSize, int pageNo, String sortBy, String sortDir);
 }
