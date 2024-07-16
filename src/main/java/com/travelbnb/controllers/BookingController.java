@@ -3,10 +3,7 @@ package com.travelbnb.controllers;
 import com.travelbnb.entity.AppUserEntity;
 import com.travelbnb.entity.Bookings;
 import com.travelbnb.payloads.BookingPayload;
-import com.travelbnb.service.BookingService;
-import com.travelbnb.service.BucketService;
-import com.travelbnb.service.PDFService;
-import com.travelbnb.service.SmsService;
+import com.travelbnb.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -38,11 +35,15 @@ public class BookingController {
     @Autowired
     private SmsService smsService;
 
-    public BookingController(BookingService bookingService, PDFService pdfService, BucketService bucketService, SmsService smsService) {
+    @Autowired
+    private WhatsAppService whatsAppService;
+
+    public BookingController(BookingService bookingService, PDFService pdfService, BucketService bucketService, SmsService smsService, WhatsAppService whatsAppService) {
         this.bookingService = bookingService;
         this.pdfService = pdfService;
         this.bucketService = bucketService;
         this.smsService = smsService;
+        this.whatsAppService = whatsAppService;
     }
 
     //    Applying Pagination and Sorting
@@ -72,6 +73,7 @@ public class BookingController {
             String uploadedFileUrl = bucketService.uploadFile(file, "dibendu2001");
 //            System.out.println(uploadedFileUrl);
             smsService.sendSms(crtBook.getMobile(),"Hotel booking confirmed and SMS sent successfully! Check the Link for Your Invoice: "+uploadedFileUrl);
+            whatsAppService.sendWhatsAppMessage(crtBook.getMobile(),"Hotel booking confirmed and SMS sent successfully! Check the Link for Your Invoice: "+uploadedFileUrl);
 
         }else{
             return new ResponseEntity<>("error",HttpStatus.INTERNAL_SERVER_ERROR);

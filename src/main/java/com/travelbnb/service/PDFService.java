@@ -39,6 +39,8 @@ public class PDFService {
             table.addCell(cell);
 
             // Add data to the table
+//            table.addCell(new Phrase("Booking ID:", font));
+//            table.addCell(new Phrase(String.valueOf(payload.getId()), font));
             table.addCell(new Phrase("Guest Name:", font));
             table.addCell(new Phrase(payload.getName(), font));
             table.addCell(new Phrase("Email Id:", font));

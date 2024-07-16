@@ -2,9 +2,6 @@ package com.travelbnb.payloads;
 
 import com.travelbnb.entity.AppUserEntity;
 import com.travelbnb.entity.PropertyEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 public class BookingPayload {
 

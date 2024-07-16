@@ -17,6 +17,9 @@ public class TwilioConfig {
     @Value("${twilio.phoneNumber}")
     private String phoneNumber;
 
+    @Value("${twilio.whatsapp.number}")
+    private String fromWhatsAppNumber;
+
     @Bean
     public void twilioInit() {
         Twilio.init(accountSid, authToken);
@@ -24,5 +27,9 @@ public class TwilioConfig {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public String getFromWhatsAppNumber() {
+        return fromWhatsAppNumber;
     }
 }
