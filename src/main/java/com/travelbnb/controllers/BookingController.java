@@ -70,7 +70,7 @@ public class BookingController {
         if(b){
 
             MultipartFile file = BookingController.convert("C://test//"+"booking-confirmation-id" + crtBook.getId() + ".pdf");
-            String uploadedFileUrl = bucketService.uploadFile(file, "dibendu2001");
+            String uploadedFileUrl = bucketService.uploadFile(file, "YourBucketName");
 //            System.out.println(uploadedFileUrl);
             smsService.sendSms(crtBook.getMobile(),"Hotel booking confirmed and SMS sent successfully! Check the Link for Your Invoice: "+uploadedFileUrl);
             whatsAppService.sendWhatsAppMessage(crtBook.getMobile(),"Hotel booking confirmed and SMS sent successfully! Check the Link for Your Invoice: "+uploadedFileUrl);
